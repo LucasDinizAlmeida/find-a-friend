@@ -12,9 +12,19 @@ export class InMemoryPetsRepository implements PetsRepository {
     return pet
   }
 
-  async searchManyByCity(city: string, page: number): Promise<Pet[]> {
+  async searchManyByCity(
+    state: string,
+    city: string,
+    page: number,
+  ): Promise<Pet[]> {
     return this.items
-      .filter((item) => item.city.includes(city))
+      .filter((item) => item.city.includes(city) && item.state.includes(state))
+      .slice((page - 1) * 10, page * 10)
+  }
+
+  async searchManyByState(state: string, page: number): Promise<Pet[]> {
+    return this.items
+      .filter((item) => item.state.includes(state))
       .slice((page - 1) * 10, page * 10)
   }
 
@@ -22,7 +32,7 @@ export class InMemoryPetsRepository implements PetsRepository {
     const pet = {
       id: data.id ?? 'pet-01',
       org_id: data.org_id,
-      image: data.image ?? [],
+      image: data.image,
       name: data.name,
       description: data.description ?? null,
       age: data.age ?? 'ADULT',

@@ -3,6 +3,7 @@ import { PetsRepository } from '@/repositories/pets-repository'
 
 interface SearchPetsByCityUsecaseRequest {
   city: string
+  state: string
   page: number
 }
 
@@ -15,9 +16,10 @@ export class SearchPetsByCityUsecase {
 
   async execute({
     city,
+    state,
     page = 1,
   }: SearchPetsByCityUsecaseRequest): Promise<SearchPetsByCityUsecaseResponse> {
-    const pets = await this.petRepository.searchManyByCity(city, page)
+    const pets = await this.petRepository.searchManyByCity(state, city, page)
 
     return { pets }
   }

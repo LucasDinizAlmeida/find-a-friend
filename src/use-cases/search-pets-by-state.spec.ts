@@ -1,17 +1,17 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import { InMemoryPetsRepository } from '@/repositories/in-memory/in-memory-pets-repository'
-import { SearchPetsByCityUsecase } from './search-pets-by-city'
+import { SearchPetByStateUsecase } from './search-pets-by-state'
 
 let inMemoryPetsRepository: InMemoryPetsRepository
-let sut: SearchPetsByCityUsecase
+let sut: SearchPetByStateUsecase
 
 describe('Search Pets by city Use Case', () => {
   beforeEach(() => {
     inMemoryPetsRepository = new InMemoryPetsRepository()
-    sut = new SearchPetsByCityUsecase(inMemoryPetsRepository)
+    sut = new SearchPetByStateUsecase(inMemoryPetsRepository)
   })
 
-  it('should able to search for pets by city', async () => {
+  it('should able to search for pets by state', async () => {
     await inMemoryPetsRepository.create({
       name: 'Fido',
       type: 'DOG',
@@ -60,14 +60,14 @@ describe('Search Pets by city Use Case', () => {
 
     const { pets } = await sut.execute({
       state: 'SP',
-      city: 'São Paulo',
       page: 1,
     })
 
-    expect(pets).toHaveLength(2)
+    expect(pets).toHaveLength(3)
     expect(pets).toEqual([
-      expect.objectContaining({ city: 'São Paulo' }),
-      expect.objectContaining({ city: 'São Paulo' }),
+      expect.objectContaining({ state: 'SP' }),
+      expect.objectContaining({ state: 'SP' }),
+      expect.objectContaining({ state: 'SP' }),
     ])
   })
 
@@ -78,7 +78,7 @@ describe('Search Pets by city Use Case', () => {
         name: `Doguinho-${i}`,
         type: 'DOG',
         state: 'SP',
-        city: 'São Paulo',
+        city: 'Santos',
         description: null,
         size: 'AVARAGE',
         age: 'ADULT',
@@ -89,14 +89,13 @@ describe('Search Pets by city Use Case', () => {
 
     const { pets } = await sut.execute({
       state: 'SP',
-      city: 'São Paulo',
       page: 2,
     })
 
     expect(pets).toHaveLength(2)
     expect(pets).toEqual([
-      expect.objectContaining({ city: 'São Paulo' }),
-      expect.objectContaining({ city: 'São Paulo' }),
+      expect.objectContaining({ state: 'SP' }),
+      expect.objectContaining({ state: 'SP' }),
     ])
   })
 })
