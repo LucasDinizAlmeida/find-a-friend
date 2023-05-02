@@ -21,7 +21,7 @@ export class CreateUserUseCase {
     email,
     password,
   }: CreateUserCaseRequest): Promise<CreateUserCaseResponse> {
-    const password_hash = await hash(password, 10)
+    const password_hash = await hash(password, 6)
 
     const userWithSameEmail = await this.userRepository.findByEmail(email)
 

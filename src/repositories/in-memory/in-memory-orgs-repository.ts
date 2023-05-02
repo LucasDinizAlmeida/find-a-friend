@@ -14,8 +14,12 @@ export class InMemoryOrgsRepository implements OrgRepository {
     return user
   }
 
-  findById(id: string): Promise<Org | null> {
-    throw new Error('Method not implemented.')
+  async findById(id: string): Promise<Org | null> {
+    const org = this.items.find((item) => item.id === id)
+
+    if (!org) return null
+
+    return org
   }
 
   async create(data: Prisma.OrgUncheckedCreateInput): Promise<Org> {
