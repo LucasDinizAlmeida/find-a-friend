@@ -47,4 +47,14 @@ export class InMemoryPetsRepository implements PetsRepository {
 
     return pet as Pet
   }
+
+  async save(data: Pet): Promise<Pet> {
+    const petIndex = this.items.findIndex((item) => item.id === data.id)
+
+    if (petIndex >= 0) {
+      this.items[petIndex] = data
+    }
+
+    return data
+  }
 }

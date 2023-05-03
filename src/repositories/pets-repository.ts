@@ -5,4 +5,5 @@ export interface PetsRepository {
   searchManyByCity(state: string, city: string, page: number): Promise<Pet[]>
   searchManyByState(state: string, page: number): Promise<Pet[]>
   create(data: Prisma.PetUncheckedCreateInput): Promise<Pet>
+  save(data: Pet): Promise<Pet>
 }
