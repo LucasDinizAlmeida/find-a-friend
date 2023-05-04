@@ -7,8 +7,8 @@
 [x] Deve ser possível visualizar detalhes de um pet para adoção
 [x] Deve ser possível se cadastrar como uma ORG
 [x] Deve ser possível se cadastrar como um USER
-[] Deve ser possível se autenticar como uma ORG
-[] Deve ser possível se autenticar como uma USER
+[x] Deve ser possível se autenticar como uma ORG
+[x] Deve ser possível se autenticar como uma USER
 
 ### Regras de negócio
 

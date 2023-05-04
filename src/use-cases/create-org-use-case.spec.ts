@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import { compare } from 'bcryptjs'
-import { UserAlreadyExistsError } from './errors/user-already-exists-error'
 import { CreateOrgUseCase } from './create-org-use-case'
 import { InMemoryOrgsRepository } from '@/repositories/in-memory/in-memory-orgs-repository'
+import { OrgAlreadyExistsError } from './errors/org-already-exists-error'
 
 let inMemoryOrgsRepository: InMemoryOrgsRepository
 let sut: CreateOrgUseCase
@@ -58,6 +58,6 @@ describe('Create Org Use Case', () => {
         address: 'Rua das flores N: 10',
         phone: '219999999',
       }),
-    ).rejects.toBeInstanceOf(UserAlreadyExistsError)
+    ).rejects.toBeInstanceOf(OrgAlreadyExistsError)
   })
 })
