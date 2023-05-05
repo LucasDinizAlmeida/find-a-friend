@@ -13,8 +13,14 @@ export class PrismaUserRepository implements UserRepository {
     return user
   }
 
-  findById(id: string): Promise<User | null> {
-    throw new Error('Method not implemented.')
+  async findById(id: string): Promise<User | null> {
+    const user = await prisma.user.findUnique({
+      where: {
+        id,
+      },
+    })
+
+    return user
   }
 
   async create(data: Prisma.UserUncheckedCreateInput): Promise<User> {
@@ -23,5 +29,13 @@ export class PrismaUserRepository implements UserRepository {
     })
 
     return user
+  }
+
+  async delete(id: string): Promise<void> {
+    await prisma.user.delete({
+      where: {
+        id,
+      },
+    })
   }
 }

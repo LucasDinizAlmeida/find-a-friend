@@ -12,6 +12,7 @@ datasource db {
 
 enum RoleUser {
   MEMBER
+  MASTER
 }
 
 enum RoleOrg {

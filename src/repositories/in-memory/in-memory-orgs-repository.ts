@@ -38,4 +38,8 @@ export class InMemoryOrgsRepository implements OrgRepository {
 
     return org
   }
+
+  async delete(id: string): Promise<void> {
+    this.items = this.items.filter((item) => item.id !== id)
+  }
 }

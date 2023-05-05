@@ -14,8 +14,14 @@ export class InMemoryUsersRepository implements UserRepository {
     return user
   }
 
-  findById(id: string): Promise<User | null> {
-    throw new Error('Method not implemented.')
+  async findById(id: string): Promise<User | null> {
+    const user = await this.items.find((item) => item.id === id)
+
+    if (!user) {
+      return null
+    }
+
+    return user
   }
 
   async create(data: Prisma.UserUncheckedCreateInput): Promise<User> {
@@ -31,5 +37,9 @@ export class InMemoryUsersRepository implements UserRepository {
     this.items.push(user)
 
     return user
+  }
+
+  async delete(id: string): Promise<void> {
+    this.items = this.items.filter((item) => item.id !== id)
   }
 }

@@ -1,5 +1,5 @@
 import { Pet, Prisma } from '@prisma/client'
-import { PetsRepository } from '../pets-repository'
+import { FilterInputParams, PetsRepository } from '../pets-repository'
 
 export class InMemoryPetsRepository implements PetsRepository {
   public items: Pet[] = []
@@ -12,13 +12,29 @@ export class InMemoryPetsRepository implements PetsRepository {
     return pet
   }
 
-  async searchManyByCity(
-    state: string,
-    city: string,
-    page: number,
-  ): Promise<Pet[]> {
+  async searchPetsByFilter({
+    page,
+    state,
+    city,
+    type,
+  }: FilterInputParams): Promise<Pet[]> {
     return this.items
-      .filter((item) => item.city.includes(city) && item.state.includes(state))
+      .filter((item) => {
+        if (city && !type) {
+          return item.state.includes(state) && item.city.includes(city)
+        }
+        if (type && !city) {
+          return item.state.includes(state) && item.type.includes(type)
+        }
+        if (city && type) {
+          return (
+            item.state.includes(state) &&
+            item.city.includes(city) &&
+            item.type.includes(type)
+          )
+        }
+        return item.state.includes(state)
+      })
       .slice((page - 1) * 10, page * 10)
   }
 
@@ -46,6 +62,10 @@ export class InMemoryPetsRepository implements PetsRepository {
     this.items.push(pet as Pet)
 
     return pet as Pet
+  }
+
+  async delete(id: string): Promise<void> {
+    this.items = this.items.filter((item) => item.id !== id)
   }
 
   async save(data: Pet): Promise<Pet> {
